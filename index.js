@@ -1,13 +1,14 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const routes = require('./src/routes/transactionsRoutes');
 const transactionService = require('./src/services/transactionsService');
+var cors = require('cors');
 
-dotenv.config();
-const port = process.env.PORT;
+const port = 8000;
 
 const app = express();
 app.use(express.json());
+app.use(cors());
+
 transactionService.init();
 
 app.use('/', [routes]);
