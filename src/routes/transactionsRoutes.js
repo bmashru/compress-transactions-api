@@ -7,4 +7,6 @@ router.get('/transactions', transactionsController.getTransactions);
 
 router.post('/transaction', transactionsController.addTransaction);
 
+router.get('/compressTransaction', transactionsController.compressTransactions);
+
 module.exports = router; 

@@ -20,4 +20,6 @@ const addTransaction = (req, res, next) => {
     res.send({added: true});
 };
 
-module.exports = { getTransactions, addTransaction };
+const compressTransactions = (req, res, next) => res.send(transactionService.compressTransactions());;
+
+module.exports = { getTransactions, addTransaction, compressTransactions };
