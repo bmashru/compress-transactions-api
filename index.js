@@ -9,8 +9,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-transactionService.init();
+var logger = function(req, res, next) {
+  console.log('REQUEST:', req.url, req.method, req.body);
+  next(); 
+}
 
+app.use(logger);
 app.use('/', [routes]);
 
 app.listen(port, () => {

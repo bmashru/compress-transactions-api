@@ -1,23 +1,29 @@
 const transactionService = require('../services/transactionsService');
 
 const getTransactions = (req, res, next) => {
-    let raw = transactionService.getTransactions();
+    let rows = transactionService.getTransactions();
     let response = {
         paying: [],
         receiving: [],
     };
 
-    if (raw.length > 0) {
-        response.paying = raw.filter((t) => t.amount < 0).map((t) => { return { ...t, amount: t.amount * -1 }});
-        response.receiving = raw.filter((t) => t.amount > 0);
+    for (let i = 0; i < rows.length; i++) {
+        if (rows[i].amount > 0) {
+            response.receiving.push(rows[i])
+        } else {
+            response.paying.push({ ...rows[i], amount: rows[i].amount * -1 })
+        }
     }
 
     res.json(response);
 };
 
 const addTransaction = (req, res, next) => {
+    if(!req.body.tradingParty || !req.body.counterParty || !/^-[1-9]\d*$/.test(req.body.amount)) {
+        return res.status(400).send('');
+    }
     transactionService.addTransaction(req.body);
-    res.send({added: true});
+    res.send({ added: true });
 };
 
 const compressTransactions = (req, res, next) => res.send(transactionService.compressTransactions());;

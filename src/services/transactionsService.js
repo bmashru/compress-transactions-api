@@ -1,9 +1,5 @@
 let transactions = [];
 
-const init = () => {
-  transactions = [];
-};
-
 const getTransactions = () => transactions;
 
 const addTransaction = (transaction) => {
@@ -12,8 +8,6 @@ const addTransaction = (transaction) => {
 
 const compressTransactions = () => {
   let tranSet = new Map();
-
-  console.log(transactions);
   transactions.forEach((value) => {
     if (tranSet.has(value.tradingParty + value.counterParty)) {
       tranSet.set(value.tradingParty + value.counterParty, {
@@ -29,4 +23,4 @@ const compressTransactions = () => {
   return [...tranSet.values()];
 };
 
-module.exports = { init, getTransactions, addTransaction, compressTransactions };
+module.exports = { getTransactions, addTransaction, compressTransactions };
